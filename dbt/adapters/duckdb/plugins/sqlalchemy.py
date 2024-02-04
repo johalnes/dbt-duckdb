@@ -27,8 +27,11 @@ class Plugin(BasePlugin):
                 table = source_config["table"]
             else:
                 table = source_config.table_name()
+            
+            schema = source_config.get("schema", None)
+            
             with self.engine.connect() as conn:
-                return pd.read_sql_table(table, con=conn)
+                return pd.read_sql_table(table, con=conn, schema=schema)
 
     def store(self, target_config: TargetConfig):
         # first, load the data frame from the external location
